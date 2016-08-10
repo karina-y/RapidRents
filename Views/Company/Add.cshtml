@@ -1,0 +1,694 @@
+@model RapidRents.Web.Models.ViewModels.ItemViewModel<int?>
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <link href="~/Content/Company.css" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="row">
+    <div class="text-center">
+        <img src="/images/house-roof-hi.png" />
+    </div>
+    <form id="companyForm" role="form">
+        <h2 class="companyBtmMrgnLg" id="pageTitle">Property Management Company Sign Up</h2>
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="col-sm-offset-7">
+                    <h3 class="companyBtmMrgnSm" id="formTitle">Company Information:</h3>
+                    <div class="companyBtmMrgnSm">
+                        <label for="inputName">Company Name: </label>
+                        <input type="text" class="form-control" id="compName" name="name" />
+                    </div>
+                    <div class="companyBtmMrgnSm">
+                        <label for="inputUrl">Company URL: </label>
+                        <input type="text" class="form-control" id="compUrl" name="url" />
+                    </div>
+                    <div class="companyBtmMrgnSm">
+                        <label for="inputPhone">Company Phone: </label>
+                        <input type="text" class="form-control" id="compPhone" name="phone" />
+                    </div>
+                    <div class="companyBtmMrgnSm">
+                        <label for="inputEmail">Company E-mail: </label>
+                        <input type="email" class="form-control" id="compEmail" name="email" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="col-sm-offset-2" id="">
+                    <h3 class="companyBtmMrgnSm" id="formTitle">Company Hours:</h3>
+
+                    <div id="companyHours"></div>
+                    <div id="hoursError">
+                        <div class="companyBtmMrgnSm">
+                            Monday:
+                            <div id="monHours">
+                                <select id="monOpen" name="monOpen">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                                TO
+                                <select id="monClose" name="monClose">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="companyBtmMrgnSm">
+                            Tuesday:
+                            <div id="tueHours">
+                                <select id="tueOpen" name="tueOpen">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                    <option value="CLOSED">CLOSED</option>
+                                </select>
+                                TO
+                                <select id="tueClose" name="tueClose">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="companyBtmMrgnSm">
+                            Wednesday:
+                            <div id="wedHours">
+                                <select id="wedOpen" name="wedOpen">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                                TO
+                                <select id="wedClose" name="wedClose">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="companyBtmMrgnSm">
+                            Thursday:
+                            <div id="thuHours">
+                                <select id="thuOpen" name="thuOpen">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                                TO
+                                <select id="thuClose" name="thuClose">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="companyBtmMrgnSm">
+                            Friday:
+                            <div id="friHours">
+                                <select id="friOpen" name="friOpen">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                                TO
+                                <select id="friClose" name="friClose">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="companyBtmMrgnSm">
+                            Saturday:
+                            <div id="satHours">
+                                <select id="satOpen" name="satOpen">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                                TO
+                                <select id="satClose" name="satClose">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="companyBtmMrgnSm">
+                            Sunday:
+                            <div id="sunHours">
+                                <select id="sunOpen" name="sunOpen">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                                TO
+                                <select id="sunClose" name="sunClose">
+                                    <option value="" selected disabled></option>
+                                    <option value="CLOSED">CLOSED</option>
+                                    <option value="12 AM">12 AM</option>
+                                    <option value="1 AM">1 AM</option>
+                                    <option value="2 AM">2 AM</option>
+                                    <option value="3 AM">3 AM</option>
+                                    <option value="4 AM">4 AM</option>
+                                    <option value="5 AM">5 AM</option>
+                                    <option value="6 AM">6 AM</option>
+                                    <option value="7 AM">7 AM</option>
+                                    <option value="8 AM">8 AM</option>
+                                    <option value="9 AM">9 AM</option>
+                                    <option value="10 AM">10 AM</option>
+                                    <option value="11 AM">11 AM</option>
+                                    <option value="12 PM">12 PM</option>
+                                    <option value="1 PM">1 PM</option>
+                                    <option value="2 PM">2 PM</option>
+                                    <option value="3 PM">3 PM</option>
+                                    <option value="4 PM">4 PM</option>
+                                    <option value="5 PM">5 PM</option>
+                                    <option value="6 PM">6 PM</option>
+                                    <option value="7 PM">7 PM</option>
+                                    <option value="8 PM">8 PM</option>
+                                    <option value="9 PM">9 PM</option>
+                                    <option value="10 PM">10 PM</option>
+                                    <option value="11 PM">11 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="text-center">
+    <button type="button" id="submitFormBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Submit Form</button>
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p id="companyUpdateConf" class="error">Something went wrong, please try again.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.additional.js"></script>
+    <script src="~/Scripts/rapidRents.services.company.js"></script>
+    <script>
+        rapidRents.page.companyId = '@Model.Item';
+    </script>
+
+    <script type="text/javascript">
+
+        rapidRents.page.startUp = function () {
+            rapidRents.page.initializeValidation();
+            $('#submitFormBtn').on("click", rapidRents.page.handlers.submitCompanyForm);
+            rapidRents.page.editCompany();
+        };
+
+        rapidRents.page.initializeValidation = function () {
+            jQuery.validator.setDefaults({
+                debug: true
+            });
+            var hoursRule = {
+                required: true,
+            };
+            var hoursMessage = "All hours required.";
+
+            $('#companyForm').validate({
+                rules: {
+                    "name": {
+                        required: true
+                    },
+                    "url": {
+                        required: true,
+                        url: true
+                    },
+                    "phone": {
+                        required: true,
+                        phoneUS: true,
+                    },
+                    "email": {
+                        required: true,
+                        email: true
+                    },
+                    monOpen: hoursRule,
+                    monClose: hoursRule,
+                    tueOpen: hoursRule,
+                    tueClose: hoursRule,
+                    wedOpen: hoursRule,
+                    wedClose: hoursRule,
+                    thuOpen: hoursRule,
+                    thuClose: hoursRule,
+                    friOpen: hoursRule,
+                    friClose: hoursRule,
+                    satOpen: hoursRule,
+                    satClose: hoursRule,
+                    sunOpen: hoursRule,
+                    sunClose: hoursRule
+                },
+
+                messages: {
+                    "name": {
+                        required: "Company Name is required.",
+                    },
+                    "url": {
+                        required: "Company URL is required."
+                    },
+                    "phone": {
+                        required: "Company Phone is required.",
+                        phoneUS: "Your phone number must be in valid US format"
+                    },
+                    "email": {
+                        required: "Company Email is required.",
+                        email: "Your email address must be in the format of name@domain.com"
+                    },
+
+                    monOpen: hoursMessage,
+                    monClose: hoursMessage,
+                    tueOpen: hoursMessage,
+                    tueClose: hoursMessage,
+                    wedOpen: hoursMessage,
+                    wedClose: hoursMessage,
+                    thuOpen: hoursMessage,
+                    thuClose: hoursMessage,
+                    friOpen: hoursMessage,
+                    friClose: hoursMessage,
+                    satOpen: hoursMessage,
+                    satClose: hoursMessage,
+                    sunOpen: hoursMessage,
+                    sunClose: hoursMessage
+                },
+
+                groups: {
+                    hours: "monOpen monClose tueOpen tueClose wedOpen wedClose thuOpen thuClose friOpen friClose satOpen satClose sunOpen sunClose"
+                },
+                errorPlacement: function (error, element) {
+                    if (element.attr("name") == "monOpen" || element.attr("name") == "monClose" ||
+                        element.attr("name") == "tueOpen" || element.attr("name") == "tueClose" ||
+                        element.attr("name") == "wedOpen" || element.attr("name") == "wedClose" ||
+                        element.attr("name") == "thuOpen" || element.attr("name") == "thuClose" ||
+                        element.attr("name") == "friOpen" || element.attr("name") == "friClose" ||
+                        element.attr("name") == "satOpen" || element.attr("name") == "satClose" ||
+                        element.attr("name") == "sunOpen" || element.attr("name") == "sunClose")
+                        error.insertAfter("#companyHours");
+                    else
+                        error.insertAfter(element);
+                }
+            });
+        };
+
+        rapidRents.page.AjaxAddSuccess = function (data, status, xhr) {
+            rapidRents.page.companyId = (data.item);
+            $('#companyUpdateConf').attr('class', '');
+            $('#companyUpdateConf').text("Company information has been successfully updated");
+        }
+
+        rapidRents.page.AjaxUpdateSuccess = function (data, status, xhr) {
+            $('#companyUpdateConf').attr('class','');
+            $('#companyUpdateConf').text("Company information has been successfully updated");
+        }
+
+        rapidRents.page.AjaxGetSuccess = function (data) {
+            if (data.item) {
+                rapidRents.page.populateForm(data.item);
+            }
+        }
+
+        rapidRents.page.AjaxError = function (data, status, xhr) {
+            console.log("Ajax error thrown");
+        }
+
+        rapidRents.page.populateForm = function (companyData) {
+            rapidRents.page.companyId = companyData.id;
+            $('#compName').val(companyData.name);
+            $('#compUrl').val(companyData.url);
+            $('#compPhone').val(companyData.phone);
+            $('#compEmail').val(companyData.email);
+            $('#monOpen').val(companyData.monOpen);
+            $('#monClose').val(companyData.monClose);
+            $('#tueOpen').val(companyData.tueOpen);
+            $('#tueClose').val(companyData.tueClose);
+            $('#wedOpen').val(companyData.wedOpen);
+            $('#wedClose').val(companyData.wedClose);
+            $('#thuOpen').val(companyData.thuOpen);
+            $('#thuClose').val(companyData.thuClose);
+            $('#friOpen').val(companyData.friOpen);
+            $('#friClose').val(companyData.friClose);
+            $('#satOpen').val(companyData.satOpen);
+            $('#satClose').val(companyData.satClose);
+            $('#sunOpen').val(companyData.sunOpen);
+            $('#sunClose').val(companyData.sunClose);
+        }
+
+
+        rapidRents.page.editCompany = function () {
+            if (rapidRents.page.companyId) {
+                $('#submitFormBtn').text('Update Form');
+                rapidRents.services.company.getById(rapidRents.page.companyId, rapidRents.page.AjaxGetSuccess, rapidRents.page.AjaxError);
+            }
+            else {
+                console.log("editCompany is not firing");
+            }
+        }
+
+        rapidRents.page.handlers.submitCompanyForm = function () {
+            if ($('#companyForm').valid()) {
+                if (!rapidRents.page.companyId) {
+                    var myData = $('#companyForm').serialize();
+                    $('#submitFormBtn').text('Update Form');
+                    rapidRents.services.company.add(myData, rapidRents.page.AjaxAddSuccess, rapidRents.page.AjaxError);
+                }
+                else {
+                    var myData = $('#companyForm').serialize() + "&id=" + rapidRents.page.companyId;
+                    rapidRents.services.company.update(rapidRents.page.companyId, myData, rapidRents.page.AjaxUpdateSuccess, rapidRents.page.AjaxError);
+                }
+            }
+            else {
+                $('#companyUpdateConf').attr('class', 'error');
+                $('#companyUpdateConf').text("Something went wrong, please try again");
+            }
+        }
+
+    </script>
+}
