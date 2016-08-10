@@ -1,0 +1,140 @@
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <link href="~/Content/Company.css" rel="stylesheet" type="text/css" />
+}
+
+<div id="companyListAppend">
+    <div class="panel-body"><h2>Company List</h2></div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.additional.js"></script>
+    <script src="~/Scripts/rapidRents.services.company.js"></script>
+    <script src="~/assets/admin/widgets/daterangepicker/moment.js"></script>
+    <script type="text/javascript">
+
+        rapidRents.page.startUp = function () {
+            rapidRents.page.companyContainer = $('#companyListAppend');
+            rapidRents.page.getCompanies();
+
+
+            $('#companyListAppend').on("click", '.togDelete', function () {
+                var deleteNewId = $(this).attr('id');
+                $(this).closest('#companyIndDiv').attr({ id: "companyIndDiv-" + deleteNewId });
+                rapidRents.page.deleteCompany(deleteNewId);
+
+            });
+        }
+
+        rapidRents.page.handlers.AjaxGetSuccess = function (data) {
+            if (data.items) {
+                rapidRents.page.processCompanies(data.items);
+            }
+        }
+
+        rapidRents.page.AjaxDeleteSuccess = function (companyId) {
+            $('#companyIndDiv-' + companyId).fadeOut("slow");
+        }
+
+        rapidRents.page.AjaxError = function (data, status, xhr) {
+            console.log("Ajax error thrown");
+        }
+
+        rapidRents.page.deleteCompany = function (deleteId) {
+            rapidRents.services.company.deleteById(deleteId, rapidRents.page.AjaxDeleteSuccess, rapidRents.page.AjaxError);
+        }
+
+        rapidRents.page.getCompanies = function () {
+            rapidRents.services.company.get(rapidRents.page.handlers.AjaxGetSuccess, rapidRents.page.AjaxError);
+        }
+
+        rapidRents.page.processCompanies = function (arrCompanies) {
+            $.each(arrCompanies, rapidRents.page.processCompany);
+        }
+
+        rapidRents.page.formatCalendarDate = function (date) {
+            return moment(date).format('LL');
+        }
+
+        rapidRents.page.processCompany = function (companyIndex, companyData) {
+            var item = $($('#listItemTemplate').html());
+
+            var dateModified = rapidRents.page.formatCalendarDate(companyData.dateModified);
+
+            item.find('.togDelete').attr({ id: companyData.id });
+            item.find('.toggleInfo').attr({ id: "toggleInfo-" + companyData.id });
+            item.find('.toggleHours').attr({ id: "toggleHours-" + companyData.id });
+            item.find('.togInfo').attr({ href: "#toggleInfo-" + companyData.id });
+            item.find('.togHours').attr({ href: "#toggleHours-" + companyData.id });
+            item.find('.togEdit').attr({ href: "/Company/" + companyData.id + "/edit" });
+
+            item.find('.comp-name').text(companyData.name);
+            item.find('.comp-url').text(" " + companyData.url);
+            item.find('.comp-url').attr({ href: companyData.url });
+            item.find('.comp-phone').text(" " + companyData.phone);
+            item.find('.comp-email').text(" " + companyData.email);
+            item.find('.comp-date-mod').text(" Date Modified: " + dateModified);
+
+            item.find('.comp-monHours').text(companyData.monOpen + " TO " + companyData.monClose);
+            item.find('.comp-tueHours').text(companyData.tueOpen + " TO " + companyData.tueClose);
+            item.find('.comp-wedHours').text(companyData.wedOpen + " TO " + companyData.wedClose);
+            item.find('.comp-thuHours').text(companyData.thuOpen + " TO " + companyData.thuClose);
+            item.find('.comp-friHours').text(companyData.friOpen + " TO " + companyData.friClose);
+            item.find('.comp-satHours').text(companyData.satOpen + " TO " + companyData.satClose);
+            item.find('.comp-sunHours').text(companyData.sunOpen + " TO " + companyData.sunClose);
+
+            rapidRents.page.appendCompany(item);
+        }
+
+        rapidRents.page.appendCompany = function (jqCompanyObject) {
+            rapidRents.page.companyContainer.append(jqCompanyObject);
+        }
+    </script>
+
+    <script type="text/template" id="listItemTemplate">
+
+        <div id="companyIndDiv" class="col-md-4">
+            <div class="panel" id="companyDivSize">
+                <div class="panel-body">
+                    <button class="togDelete close" id="" onclick="">
+                        <img src="/images/cancel-music.png" height="15" width="15" />
+                    </button>
+                    <h3 class="title-hero comp-name"></h3>
+                    <div class="example-box-wrapper">
+                        <ul id="myTab" class="nav clearfix nav-tabs">
+                            <li class="active"><a href="#toggleInfo" class="togInfo" data-toggle="tab">INFO</a></li>
+                            <li><a href="#toggleHours" class="togHours" data-toggle="tab">HOURS</a></li>
+                            <li><a href="" class="togEdit" target="_blank">EDIT</a></li>
+                        </ul>
+
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade active in toggleInfo">
+                                <div class="companyBtmMrgnSm"><img src="/images/link-flipped.png" height="15" width="15" /><a href="#comp-url" class="comp-url"></a></div>
+                                <div class="companyBtmMrgnSm"><img src="/images/call-answer.png" height="15" width="15" /><font class="comp-phone"></font></div>
+                                <div class="companyBtmMrgnSm"><img src="/images/at-sign.png" height="15" width="15" /><font class="comp-email"></font></div>
+                                <div class="companyBtmMrgnSm"><img src="/images/clock.png" height="15" width="15" /><font class="comp-date-mod"></font></div>
+                            </div>
+
+                            <div class="tab-pane fade toggleHours">
+                                <div class="companyRow">MON: <div class="companyHoursWidthMd"><font class="comp-monHours"></font></div></div>
+                                <div class="companyRow">TUE: <div class="companyHoursWidthMd"><font class="comp-tueHours"></font></div></div>
+                                <div class="companyRow">WED: <div class="companyHoursWidthMd"><font class="comp-wedHours"></font></div></div>
+                                <div class="companyRow">THU: <div class="companyHoursWidthMd"><font class="comp-thuHours"></font></div></div>
+                                <div class="companyRow">FRI: <div class="companyHoursWidthMd"><font class="comp-friHours"></font></div></div>
+                                <div class="companyRow">SAT: <div class="companyHoursWidthMd"><font class="comp-satHours"></font></div></div>
+                                <div class="companyRow">SUN: <div class="companyHoursWidthMd"><font class="comp-sunHours"></font></div></div>
+                            </div>
+
+                            <div class="tab-pane fade toggleEdit">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
