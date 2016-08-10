@@ -1,0 +1,250 @@
+@{
+    Layout = "~/Views/Shared/_Layoutadmin.cshtml";
+}
+
+@section Styles {
+    <link href="~/Content/Gallery.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="clearfix" data-ng-controller="filesController as cabinet" id="fileContrlr">
+
+    <div class="panel-heading">
+        <h1 class="text-center">Media Gallery</h1>
+    </div>
+
+    <div class="panel-heading gridMargin">
+        <h2>Upload a file</h2>
+        <form class="gridMargin" id="uploadForm" name="cabinet.uploadForm" role="form" novalidate>
+            <input type="file"
+                   placeholder="Upload a File"
+                   name="file"
+                   id="file"
+                   ng-model="cabinet.newFile.file"
+                   multiple>
+
+            <button type="submit" id="cmdAddPerson" class="btn btn-success gridMargin" ng-click="cabinet.submitForm()">Upload File</button>
+        </form>
+    </div>
+
+    <div id="portfolio-grid" class="row gridMargin">
+        <div class="col-sm-3" data-cat="1" data-ng-repeat="file in cabinet.items track by file.id">
+            <div class="thumbnail-box">
+                <a class="thumb-link" href="#" title="" ng-click="cabinet.selectFile(file)"></a>
+                <div class="thumb-content">
+                    <div class="center-vertical">
+                        <div class="center-content">
+                            <h3 class="thumb-heading animated rollIn" style="color:black">{{file.fileName}}<small><span>{{file.dateAdded | date: "MMMM d, yyyy" }}</span></small></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumb-overlay overlayColor"></div>
+                <div class="center-cropped"><img class="" ng-src="https://rapidRents-training.s3-us-west-2.amazonaws.com/{{file.filePath}}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/Scripts/rapidRents.services.files.js"></script>
+    <script src="~/Scripts/rapidRents/Files/Files.service.js"></script>
+    <script type="text/javascript">
+
+        (function () {
+            "use strict";
+            angular.module(APPNAME)
+            .controller('filesController', FilesController);
+            FilesController.$inject = ['$scope', '$baseController', "$filesService", '$uibModal'];
+
+            function FilesController(
+                $scope
+                , $baseController
+                , $filesService
+                , $uibModal) {
+
+                var vm = this;
+                $baseController.merge(vm, $baseController);
+
+                vm.uploadForm = null;
+                vm.items = null;
+                vm.selectedFile = null;
+                vm.fileForm = null;
+                vm.fileFormVisible = false;
+                vm.showNewFileErrors = false;
+                vm.newImg = false;
+
+                vm.$uibModal = $uibModal;
+                vm.submitForm = _submitForm;
+                vm.$filesService = $filesService;
+                vm.$scope = $scope;
+
+                vm.openModal = _openModal;
+                vm.receiveItems = _receiveItems;
+                vm.onFileError = _onFileError;
+                vm.selectFile = _selectFile;
+                vm.saveFile = _saveFile;
+                vm.deleteItems = _deleteItems;
+                vm.fireAlert = _fireAlert;
+                vm.fireWarning = _fireWarning;
+                vm.getFileSuccess = _getFileSuccess;
+
+                vm.fileForm = null;
+                vm.fileFormData = {};
+                $baseController.merge(vm, $baseController);
+                vm.notify = vm.$filesService.getNotifier($scope);
+                render();
+
+                function render() {
+                    vm.$filesService.get(vm.receiveItems, vm.onFileError);
+                }
+
+                function _receiveItems(data) {
+                    vm.notify(function () {
+                        console.log(data);
+                        vm.items = data.items;
+                    });
+                }
+
+                function _openModal() {
+                    var modalInstance = vm.$uibModal.open({
+                        animation: true,
+                        templateUrl: 'fileModal.html',
+                        controller: 'fileModalController as fMC',
+                        size: 'xs',
+                        resolve: {
+                            item: function () {
+                                return vm.selectedFile;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(_actionRequested, _dismissed);
+                }
+
+                function _dismissed() {
+                    console.log('Modal dismissed at: ' + new Date());
+                }
+
+                function _actionRequested(modalObject) {
+                    var id = modalObject.item.id;
+                    if (!modalObject.isDelete) {
+                        vm.$filesService.update(id, modalObject.item, vm.saveFile, vm.onFileError);
+                    }
+                    else {
+                        vm.$filesService.deleteById(id, vm.deleteItems, vm.onFileError);
+                    }
+                }
+
+                function _selectFile(aFile) {
+                    vm.selectedFile = aFile;
+                    vm.openModal();
+                }
+
+                function _saveFile(aFile) {
+                    render();
+                    vm.selectedFile = aFile;
+                    vm.fireAlert('success', 'Your save was a success!', 'Successful');
+                }
+
+                function _deleteItems(aFile) {
+                    render();
+                    vm.selectedFile = aFile;
+                    vm.fireWarning('warning', 'You deleted successfully!', 'Successful');
+                }
+
+                function _fireAlert(type, message, header) {
+                    vm.$alertService[type](message, header);
+                }
+
+                function _fireWarning(type, message, header) {
+                    vm.$alertService[type](message, header);
+                }
+
+                function _onFileError(jqXhr, error) {
+                    console.error(error);
+                }
+
+                function _getFileSuccess(aFile) {
+                    render();
+                    vm.selectedFile = aFile;
+                }
+
+                function _submitForm() {
+                    vm.showFormErrors = true;
+
+                    if (vm.uploadForm.$valid) {
+                        var files = angular.element(vm.$document.find('#file'))[0].files;
+                        var data = new FormData();
+                        var i;
+                        for (i = 0; i < files.length; i++) {
+                            data.append("file", files[i]);
+
+                        }
+                        vm.$filesService.post(data, vm.getFileSuccess, vm.onFileError);
+                    }
+
+                    else {
+                        console.log("Form submission is invalid.");
+                    }
+                }
+            }
+        })();
+
+
+        (function () {
+            "use strict";
+            angular.module(APPNAME)
+                .controller('fileModalController', FileModalController)
+            FileModalController.$inject = ['$scope', '$baseController', '$uibModalInstance', 'item']
+            function FileModalController(
+                $scope
+                , $baseController
+                , $uibModalInstance
+                , item
+                ) {
+                var vm = this;
+                $baseController.merge(vm, $baseController);
+                vm.$scope = $scope;
+                vm.$uibModalInstance = $uibModalInstance;
+                vm.selectedFile = item;
+                vm.save = function () {
+                    vm.$uibModalInstance.close({ item: vm.selectedFile, isDelete: false });
+                };
+                vm.cancel = function () {
+                    vm.$uibModalInstance.dismiss('cancel');
+                };
+                vm.delete = function (isDelete) {
+                    if (isDelete) {
+                        console.log("you weren't able to close the modal.")
+                    } else {
+                        vm.$uibModalInstance.close({ item: vm.selectedFile, isDelete: true });
+                    }
+                }
+            }
+        })();
+    </script>
+
+
+    <script type="text/ng-template" id="fileModal.html">
+
+        <form id="modalForm" name="fMC.modalForm" novalidate> 
+            <div class="modal-header">
+                <h3 class="modal-title">Edit</h3>
+            </div>
+            <div class="modal-body"><span style="color:red" ng-show="fMC.modalForm.fileName.$dirty && fMC.modalForm.fileName.$invalid">
+    <span ng-show="fMC.modalForm.fileName.$error.required">Name is required.</span>
+</span>
+                <input uib-tooltip="Name this image with your imagination"
+                       uib-tooltip-placement="top" ng-model="fMC.selectedFile.fileName"
+                       id="fileName" name="fileName" 
+                       type="text" class="form-control ng-pristine ng-valid ng-touched"
+                       required>
+                <img ng-src="https://rapidRents-training.s3-us-west-2.amazonaws.com/{{fMC.selectedFile.filePath}}" class="img-responsive" alt="">
+            </div>
+        </form>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="fMC.save()" ng-disabled="fMC.modalForm.$invalid">Save</button>
+            <button class="btn btn-warning" ng-click="fMC.cancel()">Cancel</button>
+            <button class="btn btn-danger" ng-click="fMC.delete()">Delete</button>
+        </div>
+    </script>
+}
