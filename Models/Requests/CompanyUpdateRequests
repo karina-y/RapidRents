@@ -1,0 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace RapidRents.Web.Models.Requests.Company
+{
+    public class CompanyUpdateRequests: CompanyAddRequests
+    {
+        [Required]
+        public int Id { get; set; }
+    }
+}
