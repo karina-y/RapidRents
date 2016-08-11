@@ -1,0 +1,87 @@
+<div class="row" data-ng-controller="messagingController as msg" id="message-form">
+    <div class="text-center">
+        <img src="/images/house-roof-hi.png" />
+    </div>
+    <form class="form-group" id="messagingForm" name="msg.messagingForm" role="form" novalidate>
+        <h2 class="form-group" id="pageTitle">{{ msg.header }}</h2>
+
+
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="form-group">
+                    <label for="inputTypeId"></label>
+                    <input type="hidden"
+                           class="form-control"
+                           id="contTypeId"
+                           name="typeId"
+                           ng-model="msg.newMessage.typeId"
+                           ng-minlength="1"
+                           ng-maxlength="2000" />
+                </div>
+
+                <div class="form-group">
+                    <label for="inputName">Name: </label>
+                    <input type="text"
+                           id="contName"
+                           name="name"
+                           class="form-control ng-class:{'error': msg.showFormErrors && !msg.messagingForm.name.$valid, 'valid': msg.messagingForm.name.$valid}"
+                           ng-model="msg.newMessage.name"
+                           required
+                           ng-minlength="1"
+                           ng-maxlength="100">
+                    <div role="alert" class="help-inline error">
+                        <span class="error" ng-show="msg.showFormErrors && msg.messagingForm.name.$error.required">Name is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail">E-mail: </label>
+                    <input type="email"
+                           id="contEmail"
+                           name="email"
+                           class="form-control ng-class:{'error': msg.showFormErrors && !msg.messagingForm.email.$valid, 'valid': msg.messagingForm.email.$valid}"
+                           ng-model="msg.newMessage.email"
+                           ng-minlength="1"
+                           ng-maxlength="100"
+                           required>
+
+                    <div role="alert" class="help-inline error">
+                        <span class="error" ng-show="msg.showFormErrors && msg.messagingForm.email.$error.required">Email is required.</span>
+                        <span class="error" ng-show="msg.showFormErrors && msg.messagingForm.email.$error.email">Your email address must be in the format of name@domain.com</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputMessage">Message: </label>
+                    <textarea id="contMessage"
+                              name="message"
+                              rows="3"
+                              class="form-control ng-class:{'error': msg.showFormErrors && !msg.messagingForm.message.$valid, 'valid': msg.messagingForm.message.$valid}"
+                              data-ng-model="msg.newMessage.message"
+                              ng-minlength="1"
+                              ng-maxlength="2000"
+                              required></textarea>
+                    <div role="alert" class="help-inline error">
+                        <span class="error" ng-show="msg.showFormErrors && msg.messagingForm.message.$error.required">Message is required.</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+    <div class="text-center">
+        <button type="button" id="submitFormBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-ng-click="msg.submitForm()">Submit Form</button>
+    </div>
+
+
+    <script type="text/ng-template" id="modalContent.html">
+        <div class="modal-body">
+            <b>{{ mc.modalMsg }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="mc.ok()">OK</button>
+        </div>
+    </script>
+</div>
