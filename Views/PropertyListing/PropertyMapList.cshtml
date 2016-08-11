@@ -1,0 +1,582 @@
+@{
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+}
+
+@section styles {
+    <style type="text/css">
+        #map-canvas {
+            width: 100%;
+            height: 400px;
+            background-color: #CCC;
+        }
+
+        .ultraMini_mapList {
+            min-height: 150px;
+            max-height: 150px;
+            display: block;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .mapListTopMrgnSm {
+            margin-top: 15px;
+        }
+
+        .mapListBtmMrgnSm {
+            margin-bottom: 15px;
+        }
+
+        .mapListBtmMrgnXs {
+            margin-bottom: 10px;
+        }
+    </style>
+}
+
+<div class="row" data-ng-controller="addressController as ac" id="addressController">
+    <div class="col-sm-4  content-box-wrapper">
+        <div class="col-sm-12">
+            <div class="row">
+                <h4 class="col-sm-12 well" data-toggle="collapse" data-target="#criteria">Change location and criteria</h4>
+                <div class="col-sm-12  well collapse in" id="criteria" style="height: auto;">
+
+                    <form class="form-horizontal mini" style="margin-bottom: 0px;">
+                        <fieldset>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Location</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Where do you want to live?">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Radius</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control col-sm-12">
+                                        <option>This area only</option>
+                                        <option>Within 1/4 mile</option>
+                                        <option>Within 1/2 mile</option>
+                                        <option>Within 1 mile</option>
+                                        <option>Within 3 miles</option>
+                                        <option>Within 5 miles</option>
+                                        <option>Within 10 miles</option>
+                                        <option>Within 15 miles</option>
+                                        <option>Within 20 miles</option>
+                                        <option>Within 30 miles</option>
+                                        <option>Within 40 miles</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Property</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control col-sm-12">
+                                        <option>Any</option>
+                                        <option>Houses</option>
+                                        <option>Flats/ Apartments</option>
+                                        <option>Bungalows</option>
+                                        <option>Land</option>
+                                        <option>Commercial property</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Bedrooms</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control col-sm-12">
+                                        <option>Any</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5+</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Rent/Buy</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control col-sm-12">
+                                        <option>Any</option>
+                                        <option>Rent</option>
+                                        <option>Buy</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Price</label>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-6 col-xs-6 no_padding_left no_margin_right">
+                                        <select class="form-control col-sm-12">
+                                            <option selected="selected" value="">Min</option>
+                                            <option value="50000">50,000</option>
+                                            <option value="60000">60,000</option>
+                                            <option value="70000">70,000</option>
+                                            <option value="80000">80,000</option>
+                                            <option value="90000">90,000</option>
+                                            <option value="100000">100,000</option>
+                                            <option value="110000">110,000</option>
+                                            <option value="120000">120,000</option>
+                                            <option value="125000">125,000</option>
+                                            <option value="130000">130,000</option>
+                                            <option value="140000">140,000</option>
+                                            <option value="150000">150,000</option>
+                                            <option value="160000">160,000</option>
+                                            <option value="170000">170,000</option>
+                                            <option value="175000">175,000</option>
+                                            <option value="180000">180,000</option>
+                                            <option value="190000">190,000</option>
+                                            <option value="200000">200,000</option>
+                                            <option value="210000">210,000</option>
+                                            <option value="220000">220,000</option>
+                                            <option value="230000">230,000</option>
+                                            <option value="240000">240,000</option>
+                                            <option value="250000">250,000</option>
+                                            <option value="260000">260,000</option>
+                                            <option value="270000">270,000</option>
+                                            <option value="280000">280,000</option>
+                                            <option value="290000">290,000</option>
+                                            <option value="300000">300,000</option>
+                                            <option value="325000">325,000</option>
+                                            <option value="350000">350,000</option>
+                                            <option value="375000">375,000</option>
+                                            <option value="400000">400,000</option>
+                                            <option value="425000">425,000</option>
+                                            <option value="450000">450,000</option>
+                                            <option value="475000">475,000</option>
+                                            <option value="500000">500,000</option>
+                                            <option value="550000">550,000</option>
+                                            <option value="600000">600,000</option>
+                                            <option value="650000">650,000</option>
+                                            <option value="700000">700,000</option>
+                                            <option value="800000">800,000</option>
+                                            <option value="900000">900,000</option>
+                                            <option value="1000000">1,000,000</option>
+                                            <option value="1500000">1,500,000</option>
+                                            <option value="2000000">2,000,000</option>
+                                            <option value="3000000">3,000,000</option>
+                                            <option value="">Min</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6  no_padding_right pull-right">
+                                        <select class="form-control col-sm-12 ">
+                                            <option selected="selected" value="">Max</option>
+                                            <option value="50000">50,000</option>
+                                            <option value="60000">60,000</option>
+                                            <option value="70000">70,000</option>
+                                            <option value="80000">80,000</option>
+                                            <option value="90000">90,000</option>
+                                            <option value="100000">100,000</option>
+                                            <option value="110000">110,000</option>
+                                            <option value="120000">120,000</option>
+                                            <option value="125000">125,000</option>
+                                            <option value="130000">130,000</option>
+                                            <option value="140000">140,000</option>
+                                            <option value="150000">150,000</option>
+                                            <option value="160000">160,000</option>
+                                            <option value="170000">170,000</option>
+                                            <option value="175000">175,000</option>
+                                            <option value="180000">180,000</option>
+                                            <option value="190000">190,000</option>
+                                            <option value="200000">200,000</option>
+                                            <option value="210000">210,000</option>
+                                            <option value="220000">220,000</option>
+                                            <option value="230000">230,000</option>
+                                            <option value="240000">240,000</option>
+                                            <option value="250000">250,000</option>
+                                            <option value="260000">260,000</option>
+                                            <option value="270000">270,000</option>
+                                            <option value="280000">280,000</option>
+                                            <option value="290000">290,000</option>
+                                            <option value="300000">300,000</option>
+                                            <option value="325000">325,000</option>
+                                            <option value="350000">350,000</option>
+                                            <option value="375000">375,000</option>
+                                            <option value="400000">400,000</option>
+                                            <option value="425000">425,000</option>
+                                            <option value="450000">450,000</option>
+                                            <option value="475000">475,000</option>
+                                            <option value="500000">500,000</option>
+                                            <option value="550000">550,000</option>
+                                            <option value="600000">600,000</option>
+                                            <option value="650000">650,000</option>
+                                            <option value="700000">700,000</option>
+                                            <option value="800000">800,000</option>
+                                            <option value="900000">900,000</option>
+                                            <option value="1000000">1,000,000</option>
+                                            <option value="1500000">1,500,000</option>
+                                            <option value="2000000">2,000,000</option>
+                                            <option value="3000000">3,000,000</option>
+                                            <option value="">Min</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2 pull-right" style="margin-top: 10px;">
+                                    <button class="btn btn-primary pull-right" type="submit">Search</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="row ">
+                <h4 class="col-sm-12 well" data-toggle="collapse" data-target="#filters">Filters</h4>
+                <div class="col-sm-12 well collapse in" id="filters" style="height: auto;">
+
+                    <h4>Property type:</h4>
+                    <ul class="nav">
+                        <li>
+                            <a class="active" href="category.html">Houses (12)</a>
+                            <ul>
+                                <li><a href="listings.html"> - Detached houses (11)</a></li>
+                                <li><a class="active" href="listings.html"> - Semi-detached houses (1)</a></li>
+                                <li><a class="active" href="listings.html"> - Terraced houses (1)</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="category.html">Bungalows (5)</a></li>
+                        <li><a href="category.html">Land (2)</a></li>
+                    </ul>
+                    <h4>Preowned &amp; new homes:</h4>
+                    <ul class="nav">
+                        <li><a href="category.html">Pre-owned homes (5)</a></li>
+                        <li><a href="category.html">Brand new homes (2)</a></li>
+                    </ul>
+                    <h4>Outside space:</h4>
+                    <ul class="nav">
+                        <li><a href="category.html">Garden (5)</a></li>
+                        <li><a href="category.html">Parking (2)</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="col-sm-12 well" data-toggle="collapse" data-target="#location">Location</h4>
+                <div class="col-sm-12  well collapse in" id="location" style="height: auto;">
+
+                    <ul class="nav">
+                        <li><a href="category.html">Santa Monica</a></li>
+                        <li><a href="category.html">Manhattan Beach</a></li>
+                        <li><a href="category.html">Venice</a></li>
+                        <li><a href="category.html">Hermosa Beach</a></li>
+                        <li><a href="category.html">Long Beach</a></li>
+                        <li><a href="category.html">Malibu</a></li>
+                        <li><a href="category.html">DTLA</a></li>
+                        <li><a href="category.html">San Fernando Valley</a></li>
+                        <li><a href="category.html">San Gabriel Valley</a></li>
+                        <li><a href="category.html">Foothills</a></li>
+                        <li><a href="category.html">South Side</a></li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="row hidden-xs">
+                <h4 class="col-sm-12 well">Popular searches</h4>
+                <div class="col-sm-12  well">
+
+                    <ul class="nav">
+                        <li><a href="category.html">Property for sale in Santa Monica</a></li>
+                        <li><a href="category.html">Houses for sale in Santa Monica</a></li>
+                        <li><a href="category.html">2 bedroom houses for sale in Santa Monica</a></li>
+                        <li><a href="category.html">3 bedroom houses for sale in Santa Monica</a></li>
+                        <li><a href="category.html">4 bedroom houses for sale in Santa Monica</a></li>
+                        <li><a href="category.html">5+ bedroom houses for sale in Santa Monica</a></li>
+                        <li><a href="category.html">Apartments for sale in Santa Monica</a></li>
+                        <li><a href="category.html">Studio apartments for sale in Santa Monica</a></li>
+                        <li><a href="category.html">1 bedroom apartments for sale in Santa Monica</a></li>
+                        <li><a href="category.html">2 bedroom apartments for sale in Santa Monica</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8">
+
+        <div id="map-canvas"></div>
+
+        <div class="row mapListTopMrgnSm">
+            <div class="pull-right col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="col-xs-6 visible-xs">Sort by : </div>
+                    <div class="pull-right col-sm-6 col-xs-6">
+                        <select id="sort" name="sort" class="form-control col-sm-3">
+                            <option value="pmrank">Popularity</option>
+                            <option value="price">Price: Low to High</option>
+                            <option value="-price">Price: High to Low</option>
+                        </select>
+                    </div>
+                    <span class="col-sm-3 col-xs-12 hidden-xs pull-right" style="text-align: right;">Sort by : </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div>
+            <div class="row counter">
+                <div class="col-sm-12">
+                    <h4>
+                        Showing {{(((ac.pageIndex+1)*ac.itemsPerPage)-(ac.itemsPerPage-1))}} -
+                        {{((ac.pageIndex+1)*ac.itemsPerPage) > ac.totalCount? ac.totalCount : ((ac.pageIndex+1)*ac.itemsPerPage)}}
+                        of {{ac.totalCount}} results
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="ac.totalCount > ac.itemsPerPage">
+            <uib-pagination total-items="ac.totalCount"
+                            items-per-page="ac.itemsPerPage"
+                            ng-change="ac.changePage()"
+                            ng-model="ac.currentPage"
+                            rotate="true"
+                            max-size="8"
+                            boundary-link="true"
+                            onload="">
+            </uib-pagination>
+        </div>
+
+        <div class="mapItems" data-ng-repeat="address in ac.mapItems">
+            <div class="content-box-wrapper">
+                <div class="addressLine" style="cursor: pointer;">
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="thumbnail ultraMini_mapList">
+                            <a href="#" class="img_holder"><img src='~/images/HouseImg.jpg' class="mapListBtmMrgnXs"></a>
+                            <div><div>{{address.line1 | lowercase}}</div>{{address.city | lowercase}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="ac.totalCount > ac.itemsPerPage">
+            <uib-pagination total-items="ac.totalCount"
+                            items-per-page="ac.itemsPerPage"
+                            ng-change="ac.changePage()"
+                            ng-model="ac.currentPage"
+                            rotate="true"
+                            max-size="8"
+                            boundary-link="true"
+                            onload="">
+            </uib-pagination>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/rapidRents.services.address.js"></script>
+    <script src="~/Scripts/rapidRents/maps/services.geo.js"></script>
+    <script src="~/Scripts/rapidRents.services.users.js"></script>
+    <script type="text/javascript">
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .factory('$addressService', AddressServiceFactory);
+
+            AddressServiceFactory.$inject = ['$baseService'];
+
+            function AddressServiceFactory($baseService) {
+                var aAddressServiceObject = rapidRents.services.address;
+                var newService = $baseService.merge(true, {}, aAddressServiceObject, $baseService);
+                return newService;
+            }
+        })();
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .factory('$userService', UserServiceFactory);
+
+            UserServiceFactory.$inject = ['$baseService'];
+
+            function UserServiceFactory($baseService) {
+                var aUserServiceFactoryt = rapidRents.services.users;
+                var newService = $baseService.merge(true, {}, aUserServiceFactoryt, $baseService);
+                return newService;
+            }
+        })();
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('addressController', AddressController);
+
+            AddressController.$inject = ['$scope', '$baseController', '$addressService', '$geoService', '$userService'];
+
+            function AddressController(
+                  $scope
+                , $baseController
+                , $addressService
+                , $geoService
+                , $userService
+                ) {
+
+                var vm = this;
+                $baseController.merge(vm, $baseController);
+                vm.$addressService = $addressService;
+                vm.$geoService = $geoService;
+                vm.$scope = $scope;
+                vm.$userService = $userService;
+
+                vm.items = null;
+                vm.map = null;
+                vm.onlatLngSuccess = null;
+                vm.pref = null;
+
+                vm.currentPage = 1;
+                vm.customMapSettings = {};
+                vm.itemsPerPage = 20;
+                vm.mapItems = {};
+                vm.pageIndex = 0;
+                vm.totalCount = 0;
+
+                vm.changePage = _changePage;
+                vm.contentProvider = _contentProvider;
+                vm.designMarker = _designMarker;
+                vm.getItems = _getItems;
+                vm.numberOfPages = _numberOfPages;
+                vm.onAddressError = _onAddressError;
+                vm.receiveItems = _receiveItems;
+                vm.receivePreferences = _receivePreferences;
+                vm.removeMarkers = _removeMarkers;
+
+                vm.notify = vm.$addressService.getNotifier($scope);
+
+                render();
+
+                function render() {
+                    if (vm.map == null) {
+                        var mapProp = {
+                            center: new google.maps.LatLng(34.0580162, -118.1944975),
+                            zoom: 10
+                        };
+                        vm.map = vm.$geoService.getMap(document.getElementById("map-canvas"), mapProp);
+                    }
+
+                    if ($baseController.$rapidRents.baseViewModel.isLoggedIn === true) {
+                        vm.$userService.getUIPreferenceName(vm.receivePreferences, vm.ajaxError);
+                    }
+                    _getItems(0);
+                }
+
+                function _getItems(whichpage) {
+                    vm.$addressService.getpage(whichpage, vm.itemsPerPage, vm.receiveItems, vm.onAddressError);
+                }
+
+                function _receivePreferences(data) {
+                    vm.notify(function () {
+                        if (data.items) {
+                            vm.pref = data.items;
+                        }
+
+                        else {
+                            vm.$log.log("data.item doesn't exist")
+                        }
+                    });
+                }
+
+                function _receiveItems(data) {
+                    vm.notify(function () {
+                        if (data) {
+                            if (!data.item) {
+                                return null;
+                            }
+                            else if (data.item) {
+                                vm.mapItems = data.item.pagedItems;
+                                vm.totalCount = data.item.totalCount;
+                                vm.pageIndex = data.item.pageIndex;
+                                vm.totalPages = data.item.totalPages;
+                                vm.itemsPerPage = data.item.pageSize;
+                            }
+                        }
+                        _removeMarkers();
+                        vm.markers = vm.$geoService.placeMarkers(vm.map, vm.mapItems, _contentProvider, _designMarker, vm.pref);
+                    });
+                }
+
+                function _removeMarkers() {
+                    var property;
+                    for (property in vm.markers) {
+                        var markers = vm.markers[property];
+                        markers.setMap(null);
+
+                        delete vm.markers[property];
+
+                        vm.onlatLngSuccess;
+                    }
+                }
+
+                function _designMarker(singleItem) {
+                    var customIcon;
+                    var customAnimation;
+
+                    if (singleItem.listings == null) {
+                        customIcon = '/images/modern-marker-red.png';
+                    }
+
+                    else if (singleItem.listings[0]) {
+                        customIcon = '/images/modern-marker-green.png';
+                    }
+
+                    vm.customMapSettings = { animation: customAnimation, icon: customIcon };
+                    return vm.customMapSettings;
+                }
+
+                function _contentProvider(singleItem) {
+                    if (!singleItem) {
+                        vm.$log.error("singleItem does not exist");
+                        return null;
+                    }
+
+                    var content = null;
+
+                    if (!singleItem.listings) {
+                        content = singleItem.line1;
+                    }
+
+                    else if (!singleItem.listings[0]) {
+                        content = singleItem.line1;
+                    }
+
+                    else if (singleItem.listings[0]) {
+                        content = singleItem.listings[0].headline +
+                       "<br/> Rent: $" + singleItem.listings[0].rentCost +
+                       "<br/>" + singleItem.line1;
+                    }
+
+                    return content;
+                }
+
+                function _numberOfPages() {
+                    return vm.totalPages;
+                }
+
+                function _changePage() {
+                    _getItems(vm.currentPage - 1);
+                }
+
+                function _onAddressError(jqXhr, error) {
+                    vm.showErrors(jqXhr.responseJSON);
+                }
+            }
+        })();
+    </script>
+}
