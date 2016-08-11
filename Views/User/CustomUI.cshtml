@@ -1,0 +1,284 @@
+@{
+    ViewBag.Title = "CustomUI";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .uiPadLeft {
+        padding-left: 40px;
+    }
+
+    .uiPadRight {
+        padding-right: 40px;
+    }
+
+    .uiMgnBtm {
+        margin-bottom: 20px;
+    }
+
+    .uiMgnTop {
+        margin-top: 20px;
+    }
+</style>
+
+
+
+
+<div data-ng-controller="customUIController as ui" id="customUIController" class="row">
+    <form id="updateForm" role="form" name="ui.updateForm">
+        <h2 class="uiMgnBtm" id="pageTitle">User Custom UI Preferences:</h2>
+
+        <div id="updateUI" data-ng-repeat="items in ui.items">
+            <div class="uiMgnBtm">
+                <h4>UPDATE UI:</h4>
+                <label for="markerOptions" class="uiPadLeft">Custom Options:</label>
+                <select id="customizationIdSelect"
+                        customizationIdSelect ng-model="items.customizationId"
+                        convert-to-number>
+
+                    <option value="1" disabled>Map Marker Color</option>
+                    <option value="2" disabled>Map Marker Animation</option>
+                    <option value="5" disabled>Admin background color</option>
+                    <option value="6" disabled>Admin navbar color</option>
+                    <option value="7" disabled>Admin navbar font color</option>
+                    <option value="8" disabled>Admin navbar font face</option>
+                </select>
+
+                <label for="markerValue" class="uiPadLeft">Custom Pref:</label>
+                <input type="text"
+                       class=""
+                       id=""
+                       name="markerValue"
+                       ng-model="items.value"
+                       ng-minlength="1"
+                       ng-maxlength="10"
+                       style="text-transform:uppercase" />
+
+                <button type="button" id="submitFormBtn" class="btn btn-primary" data-ng-click="ui.updatePreferences(items)">Update</button>
+                <button type="button" id="submitFormBtn" class="btn btn-primary" data-ng-click="ui.deletePreferences(items)">Delete</button>
+
+            </div>
+        </div>
+    </form>
+
+
+
+
+    <button type="button" id="submitFormBtn" class="btn btn-primary" data-ng-click="ui.showForm()" ng-show="ui.newUIButton">New Customization</button>
+
+    <form id="preferenceForm" role="form" name="ui.preferenceForm">
+
+        <div id="newUI" ng-show="ui.newUI" class="uiMgnTop">
+            <h4>NEW UI:</h4>
+            <label for="markerOptions" class="uiPadLeft">Map Marker Options:</label>
+            <select id="customizationIdSelect"
+                    name="customizationIdSelect"
+                    ng-model="ui.newPreference.customizationId"
+                    convert-to-number>
+
+                <option value="1">Map Marker Color</option>
+                <option value="2">Map Marker Animation</option>
+                <option value="5">Admin background color</option>
+                <option value="6">Admin navbar color</option>
+                <option value="7">Admin navbar font color</option>
+                <option value="8">Admin navbar font face</option>
+
+            </select>
+
+            <label for="markerValue" class="uiPadLeft">Map Marker Pref:</label>
+            <input type="text"
+                   class=""
+                   id=""
+                   name="markerValue"
+                   ng-model="ui.newPreference.value"
+                   ng-minlength="1"
+                   ng-maxlength="10"
+                   style="text-transform:uppercase" />
+            <button type="button" id="submitFormBtn" class="btn btn-primary" data-ng-click="ui.submitPreferences()">Submit</button>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+@section scripts {
+    <script src="~/Scripts/rapidRents.services.users.js"></script>
+    <script type="text/javascript">
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .factory('$userService', UserServiceFactory);
+
+            UserServiceFactory.$inject = ['$baseService'];
+
+            function UserServiceFactory($baseService) {
+                var aUserServiceFactoryt = rapidRents.services.users;
+                var newService = $baseService.merge(true, {}, aUserServiceFactoryt, $baseService);
+                return newService;
+            }
+        })();
+
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('customUIController', CustomUIController);
+
+            CustomUIController.$inject = ['$scope', '$baseController', '$userService'];
+
+            function CustomUIController(
+                  $scope
+                , $baseController
+                , $userService
+                ) {
+
+                var vm = this;
+
+                $baseController.merge(vm, $baseController);
+
+                vm.$scope = $scope;
+                vm.$userService = $userService;
+
+                vm.ajaxError = _ajaxError;
+                vm.ajaxDeleteSuccess = _ajaxDeleteSuccess;
+                vm.ajaxPostSuccess = _ajaxPostSuccess;
+                vm.ajaxPutSuccess = _ajaxPutSuccess;
+                vm.deletePreferences = _deletePreferences;
+                vm.receiveItems = _receiveItems;
+                vm.resetForm = _resetForm;
+                vm.showForm = _showForm;
+                vm.submitPreferences = _submitPreferences;
+                vm.updatePreferences = _updatePreferences;
+
+                vm.items = null;
+                vm.newPreference = null;
+                vm.newUI = false;
+                vm.newUIButton = true;
+                vm.preferenceForm = null;
+
+                vm.notify = vm.$userService.getNotifier($scope);
+
+                render();
+
+                function render() {
+                    vm.$userService.getUIPreference(vm.receiveItems, vm.ajaxError);
+                }
+
+                function _receiveItems(data) {
+                    vm.notify(function () {
+                        if (data.items) {
+                            vm.items = data.items;
+                        }
+
+                        else {
+                            return null;
+                            vm.$log.log("data.item doesn't exist")
+                        }
+                    });
+                }
+
+                function _submitPreferences() {
+                    if (vm.preferenceForm.$valid) {
+                        vm.$userService.addUIPreference(vm.newPreference, vm.ajaxPostSuccess(vm.newPreference), vm.ajaxError);
+                    }
+
+                    else {
+                        vm.$log.log("Form submission is invalid.");
+                    }
+                }
+
+                function _updatePreferences(updateData) {
+                    if (vm.updateForm.$valid) {
+                        vm.$userService.updateUIPreference(updateData, vm.ajaxPutSuccess, vm.ajaxError);
+                    }
+
+                    else {
+                        vm.$log.log("Form submission is invalid.");
+                    }
+                }
+
+                function _deletePreferences(deleteData) {
+                    if (vm.updateForm.$valid) {
+                        vm.$userService.deleteUIPreference(deleteData, vm.ajaxDeleteSuccess(deleteData), vm.ajaxError);
+                    }
+
+                    else {
+                        vm.$log.log("Form submission is invalid.");
+                    }
+                }
+
+                function _ajaxError() {
+                    vm.$log.log("ajax error hit");
+                    vm.$alertService.error('Submission error, please try again.');
+                }
+
+                function _ajaxPostSuccess(newItem) {
+                    _resetForm();
+                    vm.$alertService.success('Submission successful!');
+
+                    for (var i = 0; i < vm.items.length; i++) {
+                        vm.items.push(newItem);
+                        break;
+                    }
+                }
+
+                function _ajaxPutSuccess() {
+                    vm.$alertService.success('Submission successful!');
+                }
+
+                function _ajaxDeleteSuccess(deletedItem) {
+                    vm.$alertService.success('Delete successful!');
+                    var customId = deletedItem.customizationId;
+
+                    for (var i = 0; i < vm.items.length; i++) {
+                        if (customId == vm.items[i].customizationId) {
+                            vm.items.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+
+                function _resetForm() {
+                    vm.newPreference = null;
+                    vm.preferenceForm.$setUntouched()
+                    vm.preferenceForm.$setPristine();
+                    //vm.newUI = false;
+                    //vm.newUIButton = true;
+                }
+
+                function _showForm() {
+                    vm.newUIButton = false;
+                    vm.newUI = true;
+                }
+            }
+        })();
+
+
+        (function () {
+            "use strict";
+            angular.module(APPNAME).directive('convertToNumber', ConvertToNumber);
+
+            function ConvertToNumber() {
+                return {
+                    require: 'ngModel',
+                    link: function (scope, element, attrs, ngModel) {
+                        ngModel.$parsers.push(function (val) {
+                            return parseInt(val, 10);
+                        });
+                        ngModel.$formatters.push(function (val) {
+                            return '' + val;
+                        });
+                    }
+                };
+            }
+        })();
+    </script>
+}
